@@ -21,7 +21,7 @@ app.locals.pretty = true;
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret: 'randomSecretShhh!'}));
-app.use(express.static(__dirname + '/public_html'))
+app.use(express.static(__dirname + '/public'))
 
 /*
  * Global Functions
