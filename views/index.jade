@@ -4,27 +4,17 @@ block sidebar
   if user.logged_in
     p logged_in
   else 
-    form(class="pure-form pure-form-aligned", method="POST", action="/login")
-        legend Login to Todo List
-        fieldset
-            .pure-control-group
-                label(for="username") Username
-                input(id="username", name="username", type="text", placeholder="username")
-            .pure-control-group
-                label(for="password") Password
-                input(id="password", name="password", type="password", placeholder="password")
-                
-            .pure-controls
-                button(class="pure-button pure-button-primary") Submit
-block content
-  p
-    | Vivamus hendrerit arcu sed erat molestie
-    | vehicula. Sed auctor neque eu tellus
-    | rhoncus ut eleifend nibh porttitor. Ut in.
-  p
-    | Donec congue lacinia dui, a porttitor
-    | lectus condimentum laoreet. Nunc eu
-    | ullamcorper orci. Quisque eget odio ac
-    | lectus vestibulum faucibus eget in metus.
-    | In pellentesque faucibus vestibulum. Nulla
-    | at nulla justo, eget luctus tortor.
+    form(class="pure-form", method="POST", action="/login")
+        h1 Lets Play
+        img(src="/images/logo-light.png")
+
+        div(id="mainnav", class="pure-menu pure-menu-open pure-menu-horizontal")
+            ul
+                <li class="pure-menu-selected"><a href="#"><i class="icon-list"></i> &nbsp; Todos</a></li>
+        
+        div.formgroup
+            fieldset.pure-group
+                input(id="username", name="username", type="text", placeholder="username", class=" pure-input-1")
+                input(id="password", name="password", type="password", placeholder="password", class=" pure-input-1")
+
+            button( type="submit", class="pure-button pure-button-primary pure-input-1") <i class="icon-signin"></i> Log In

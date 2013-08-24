@@ -4,7 +4,7 @@ block sidebar
     +userSidebar()
 
 block content
-    form(class="pure-form pure-form-stacked", style="margin-top:20px")
+    form(method="POST", action="/todos/new", class="pure-form pure-form-stacked", style="margin-top:20px")
         legend Add Todo
         fieldset
             label(for="todo_name") Todo Name

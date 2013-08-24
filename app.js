@@ -30,7 +30,7 @@ var logged_in = false;
 
 function validateSession(req, res, next) {
     if (!req.session.user_id) {
-        res.send(403);
+        res.redirect('/');
     } else {
         var logged_in = true;
         next();
@@ -56,7 +56,7 @@ app.get('/', function (req, res) {
 });
 
 //------------------------------------------------------------------------------
-// LOGIN
+// LOGIN / LOGOUT
 //------------------------------------------------------------------------------
 app.post('/login', function (req, res) {
     var post = req.body;
@@ -69,6 +69,12 @@ app.post('/login', function (req, res) {
     } else {
         res.send('Bad user/pass');
     }
+});
+
+app.get('/logout', validateSession, function (req, res) {
+    req.session.user_id = null;
+    req.session.user_name = null;
+    res.redirect('/');
 });
 
 //------------------------------------------------------------------------------
@@ -97,8 +103,7 @@ app.get('/todos', validateSession, function (req, res) {
                 connection.destroy()
             }
         })
-    })     
-    
+    })
 
 });
 
@@ -109,6 +114,29 @@ app.get('/todos/new', validateSession, function (req, res) {
     })
 });
 
+app.post('/todos/new', validateSession, function (req, res) {
+    var post = req.body;
+    var insert = {
+        user_id:    req.session.user_id,
+        todo_name:  post.todo.name,
+        todo_desc:  post.todo.desc,
+        todo_added: new Date()
+    }
+
+    // form validation / sanity checks
+    if (post.todo.name.length > 255 || post.todo.name.length <= 0 || post.todo.name.length > 10000) {
+        res.redirect('/todos/new');
+    } else {
+        pool.getConnection(function(err, connection) {
+            connection.query('INSERT INTO todos SET ?', insert, function(err, result) {
+                if (err) throw err;
+                
+                res.redirect('/todos');
+            })
+        })
+    }
+
+});
 
 /*
  * Init App
