@@ -1,0 +1,25 @@
+{
+  "name": "lets_play_nodejs",
+  "version": "0.0.0",
+  "description": "The base package for my lets play: node.js",
+  "main": "start_server.js",
+  "dependencies": {
+    "express": "~3.3.5",
+    "jade": "~0.35.0",
+    "underscore": "~1.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/csbarker/lets_play_nodejs.git"
+  },
+  "author": "Callum Barker",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/csbarker/lets_play_nodejs/issues"
+  },
+  "private": true
+}

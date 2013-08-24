@@ -1,0 +1,15 @@
+!!!5
+html
+  head
+    title #{title} - My Site
+    link(rel='stylesheet', href='//yui.yahooapis.com/pure/0.2.1/pure-min.css')
+  body
+    header
+      h1 My Site
+    .container
+      .main-content
+        block content
+      .sidebar
+        block sidebar
+    footer
+      p Running on node with Express, Jade and Stylus
