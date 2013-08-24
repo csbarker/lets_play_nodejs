@@ -1,17 +1,28 @@
 !!!5
+//------------------------------------------------------------------------------
+//- Main User Sidebar
+//------------------------------------------------------------------------------
+mixin userSidebar
+    .pure-menu.pure-menu-open
+        a.pure-menu-heading #{user.user_name}
+
+        ul
+            li: a(href="/todos") <i class="icon-list"></i> &nbsp; My Todos
+            li: a(href="/todos/new") <i class="icon-pencil"></i> &nbsp; Add Todo
+            li: a(href="/logout") <i class="icon-signout"></i> &nbsp; Logout
+
 html
   head
-    title #{title} - My Site
+    title #{title} - Lets Play: Node.js
     link(rel='stylesheet', href='//yui.yahooapis.com/pure/0.2.1/pure-min.css')
+    link(rel="stylesheet", href='//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css')
+
   body
     .pure-menu.pure-menu-open.pure-menu-horizontal
-        a.pure-menu-heading Site Title
-        UL
-            li(class="pure-menu-selected"): a(href="/") Homepage
-            li: a(href="/todos") Todos
+        a.pure-menu-heading Lets Play: Node.js
 
     .pure-g-r
-        .sidebar.pure-u-1-4
+        .sidebar.pure-u-1-5(style="margin:20px")
             block sidebar
         .pure-u-3-4
             .content

@@ -1,0 +1,16 @@
+extend layout
+
+block sidebar
+    +userSidebar()
+
+block content
+    form(class="pure-form pure-form-stacked", style="margin-top:20px")
+        legend Add Todo
+        fieldset
+            label(for="todo_name") Todo Name
+            input(type="text", name="todo[name]", id="todo_name", class="pure-input-1", "autofocus")
+
+            label(for="todo_desc") Todo Description
+            textarea(name="todo[desc]", id="todo_desc", class="pure-input-1", style="margin-bottom:15px;", rows="5")
+
+            button.pure-button.pure-button-primary Submit

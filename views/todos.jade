@@ -1,0 +1,24 @@
+extend layout
+
+block sidebar
+    +userSidebar()
+
+block content
+    h2 Your Todo's
+    if todos == false
+        p You do not currently have any <mark>todos</mark>.<br><br> <a href="/todos/new" class="pure-button pure-button-primary">+ Add One</a>
+    else
+        table.pure-table.pure-table-striped(style="width:100%")
+            thead
+                tr
+                    th #
+                    th Todo Name
+                    th Todo Desc
+                    th Todo Added
+                tbody
+                each val in todos
+                  tr
+                    td= val.todo_id
+                    td= val.todo_name
+                    td= val.todo_desc
+                    td= val.todo_added

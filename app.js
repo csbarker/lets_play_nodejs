@@ -3,8 +3,13 @@
  */
 var express = require('express'),
     app = express(),
-    util = require('util');
-
+    mysql = require('mysql'),
+    pool  = mysql.createPool({
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      database : 'nodejs'
+    });
 /*
  * Setup App
  */
@@ -25,11 +30,15 @@ var logged_in = false;
 
 function validateSession(req, res, next) {
     if (!req.session.user_id) {
-        res.send('You are not authorized to view this page');
+        res.send(403);
     } else {
         var logged_in = true;
         next();
     }
+}
+
+function renderPage(res, page, data) {
+    res.render(page, data);
 }
 
 /*
@@ -40,20 +49,22 @@ function validateSession(req, res, next) {
 // INDEX
 //------------------------------------------------------------------------------
 app.get('/', function (req, res) {
-  res.render('index',
-    { title : 'Home', user: { logged_in:logged_in } }
-  )
+  res.render('index', { 
+      title : 'Home', 
+      user: { logged_in:logged_in } 
+  })
 });
 
 //------------------------------------------------------------------------------
 // LOGIN
 //------------------------------------------------------------------------------
 app.post('/login', function (req, res) {
-    //res.send('<pre>' + util.inspect(req.body, false, null));
     var post = req.body;
     
     if (post.username == 'test' && post.password == 'test') {
         req.session.user_id = 1;
+        req.session.user_name = 'Callum Barker';
+        
         res.redirect('/todos');
     } else {
         res.send('Bad user/pass');
@@ -64,8 +75,40 @@ app.post('/login', function (req, res) {
 // TODOS
 //------------------------------------------------------------------------------
 app.get('/todos', validateSession, function (req, res) {
-    res.send('if you are viewing this page it means you are logged in');
+    var user_id = req.session.user_id;
+    var data = { 
+        title : 'Todos', 
+        user: req.session,
+        todos: ''
+    };
+    
+    // Connections can be pooled to ease sharing a single connection, or managing multiple connections.
+    // https://github.com/felixge/node-mysql
+    pool.getConnection(function(err, connection) {
+        connection.query( 'SELECT * FROM todos WHERE user_id = '+user_id, function(err, rows) {
+            if (rows.length > 0) {
+                console.log('Rows: ' + rows);
+                data.todos = rows;
+                renderPage(res, 'todos', data);
+                connection.destroy()
+            } else {
+                console.log('Error: ' + err)
+                renderPage(res, 'todos', data);
+                connection.destroy()
+            }
+        })
+    })     
+    
+
 });
+
+app.get('/todos/new', validateSession, function (req, res) {
+    res.render('todos_create', { 
+        title : 'Add Todo', 
+        user: req.session
+    })
+});
+
 
 /*
  * Init App
