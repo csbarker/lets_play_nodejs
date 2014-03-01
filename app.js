@@ -126,15 +126,15 @@ app.post('/todos/new', validateSession, function (req, res) {
     // form validation / sanity checks
     if (post.todo.name.length > 255 || post.todo.name.length <= 0 || post.todo.name.length > 10000) {
         res.redirect('/todos/new');
-    } else {
-        pool.getConnection(function(err, connection) {
-            connection.query('INSERT INTO todos SET ?', insert, function(err, result) {
-                if (err) throw err;
-                
-                res.redirect('/todos');
-            })
-        })
     }
+
+    pool.getConnection(function(err, connection) {
+        connection.query('INSERT INTO todos SET ?', insert, function(err, result) {
+            if (err) throw err;
+        })
+    })
+
+    res.redirect('/todos');
 
 });
 
